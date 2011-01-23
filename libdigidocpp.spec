@@ -5,7 +5,7 @@
 %bcond_without	perl	# perl module
 %bcond_without	php		# php module
 %bcond_without	python	# python module
-%bcond_without	bindings	# build bindings
+%bcond_with		bindings	# build bindings
 
 %if %{without bindings}
 %undefine	with_perl
@@ -16,7 +16,7 @@
 Summary:	Library for creating and validating BDoc and DDoc containers
 Name:		libdigidocpp
 Version:	0.3.0
-Release:	0.1
+Release:	1
 License:	LGPL v2+
 Group:		Libraries
 URL:		http://code.google.com/p/esteid/
