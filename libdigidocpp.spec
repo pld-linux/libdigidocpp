@@ -16,7 +16,7 @@
 Summary:	Library for creating and validating BDoc and DDoc containers
 Name:		libdigidocpp
 Version:	0.3.0
-Release:	1
+Release:	2
 License:	LGPL v2+
 Group:		Libraries
 URL:		http://code.google.com/p/esteid/
