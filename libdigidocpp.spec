@@ -15,22 +15,21 @@
 
 Summary:	Library for creating and validating BDoc and DDoc containers
 Name:		libdigidocpp
-Version:	0.3.0
-Release:	3
+Version:	3.9.0.1237
+Release:	1
 License:	LGPL v2+
 Group:		Libraries
-URL:		http://code.google.com/p/esteid/
-Source0:	http://esteid.googlecode.com/files/%{name}-%{version}.tar.bz2
-# Source0-md5:	a567fd16d2ce6205b179850e98c26971
+Source0:	https://installer.id.ee/media/sources/%{name}-%{version}.tar.gz
+# Source0-md5:	a6558eb5df8211ac5757104c6c5f24d7
+URL:		http://www.ria.ee/
 BuildRequires:	cmake
-BuildRequires:	libdigidoc-devel
+BuildRequires:	libdigidoc-devel >= 3.9
 BuildRequires:	libp11-devel
 BuildRequires:	minizip-devel
 BuildRequires:	openssl-devel
 BuildRequires:	rpmbuild(macros) >= 1.519
 BuildRequires:	xml-security-c-devel
 BuildRequires:	xsd
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %if %{with perl} || %{with php} || %{with python}
 BuildRequires:	swig
 %endif
@@ -43,8 +42,9 @@ BuildRequires:	php-devel >= 4:5.0.4
 %if %{with python}
 BuildRequires:	python-devel
 %endif
-Requires:	libdigidoc
+Requires:	libdigidoc >= 3.9
 Requires:	opensc
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 libdigidocpp is a C++ library for reading, validating, and creating
@@ -99,10 +99,11 @@ The python-digidoc package contains Python bindings for the %{name}
 library.
 
 %prep
-%setup -q
+%setup -qc
+mv libdigidocpp/* .
 
 # Remove bundled copy of minizip
-rm -rf src/minizip
+rm -r src/minizip
 
 %build
 install -d build
@@ -124,19 +125,26 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS NEWS README
-%attr(755,root,root) %{_libdir}/libdigidocpp.so.*.*.*
-%ghost %attr(755,root,root) %{_libdir}/libdigidocpp.so.0
+%doc AUTHORS README RELEASE-NOTES.txt
 %dir %{_sysconfdir}/digidocpp
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/digidocpp/digidocpp.conf
-%{_sysconfdir}/digidocpp/certs
+# XXX ?
+%{_sysconfdir}/digidocpp/37242.p12
 %{_sysconfdir}/digidocpp/schema
+%attr(755,root,root) %{_libdir}/libdigidocpp.so.*.*.*
+%ghost %attr(755,root,root) %{_libdir}/libdigidocpp.so.0
+%attr(755,root,root) %{_bindir}/digidoc-tool
+%{_mandir}/man1/digidoc-tool.1*
+
+# XXX ca-certificates or drop?
+%dir %{_datadir}/esteid
+%{_datadir}/esteid/certs
 
 %files devel
 %defattr(644,root,root,755)
-%{_libdir}/*.so
+%{_libdir}/libdigidocpp.so
 %{_includedir}/digidocpp
-%{_pkgconfigdir}/lib*.pc
+%{_pkgconfigdir}/libdigidocpp.pc
 
 %if %{with perl}
 %files -n perl-digidoc
