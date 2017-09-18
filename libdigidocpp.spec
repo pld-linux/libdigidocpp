@@ -20,14 +20,17 @@ Group:		Libraries
 Source0:	https://github.com/open-eid/libdigidocpp/releases/download/v%{version}/%{name}-%{version}.tar.gz
 # Source0-md5:	deead245114c60c3afe7c4a3b3c81060
 URL:		https://github.com/open-eid/libdigidocpp
+BuildRequires:	boost-devel
 BuildRequires:	cmake
 BuildRequires:	libdigidoc-devel >= 3.9
 BuildRequires:	libp11-devel
 BuildRequires:	minizip-devel
 BuildRequires:	openssl-devel
+BuildRequires:	pkgconfig
 BuildRequires:	rpmbuild(macros) >= 1.583
 BuildRequires:	xml-security-c-devel
 BuildRequires:	xsd
+BuildRequires:	xxd
 %if %{with perl} || %{with php} || %{with python}
 BuildRequires:	swig
 %endif
