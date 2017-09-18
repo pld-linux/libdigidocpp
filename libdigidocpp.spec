@@ -1,5 +1,3 @@
-# TODO
-# - use ca-certificates certs and drop /etc/digidocpp/certs
 #
 # Conditional build:
 %bcond_without	perl	# perl module
@@ -15,19 +13,19 @@
 
 Summary:	Library for creating and validating BDoc and DDoc containers
 Name:		libdigidocpp
-Version:	3.9.0.1237
+Version:	3.12.3
 Release:	1
 License:	LGPL v2+
 Group:		Libraries
-Source0:	https://installer.id.ee/media/sources/%{name}-%{version}.tar.gz
-# Source0-md5:	a6558eb5df8211ac5757104c6c5f24d7
-URL:		http://www.ria.ee/
+Source0:	https://github.com/open-eid/libdigidocpp/releases/download/v%{version}/%{name}-%{version}.tar.gz
+# Source0-md5:	deead245114c60c3afe7c4a3b3c81060
+URL:		https://github.com/open-eid/libdigidocpp
 BuildRequires:	cmake
 BuildRequires:	libdigidoc-devel >= 3.9
 BuildRequires:	libp11-devel
 BuildRequires:	minizip-devel
 BuildRequires:	openssl-devel
-BuildRequires:	rpmbuild(macros) >= 1.519
+BuildRequires:	rpmbuild(macros) >= 1.583
 BuildRequires:	xml-security-c-devel
 BuildRequires:	xsd
 %if %{with perl} || %{with php} || %{with python}
@@ -45,6 +43,9 @@ BuildRequires:	python-devel
 Requires:	libdigidoc >= 3.9
 Requires:	opensc
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+# missing -lpthread, -lxalan-c, etc
+%define		skip_post_check_so	libdigidocpp.so.%{version}
 
 %description
 libdigidocpp is a C++ library for reading, validating, and creating
@@ -99,11 +100,12 @@ The python-digidoc package contains Python bindings for the %{name}
 library.
 
 %prep
-%setup -qc
-mv libdigidocpp/* .
+%setup -q
 
 # Remove bundled copy of minizip
 rm -r src/minizip
+# Remove bundled openssl
+rm -r src/openssl
 
 %build
 install -d build
@@ -125,20 +127,16 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-%doc AUTHORS README RELEASE-NOTES.txt
+%doc AUTHORS README.md RELEASE-NOTES.txt
 %dir %{_sysconfdir}/digidocpp
 %config(noreplace) %verify(not md5 mtime size) %{_sysconfdir}/digidocpp/digidocpp.conf
 # XXX ?
-%{_sysconfdir}/digidocpp/37242.p12
+%{_sysconfdir}/digidocpp/878252.p12
 %{_sysconfdir}/digidocpp/schema
 %attr(755,root,root) %{_libdir}/libdigidocpp.so.*.*.*
-%ghost %attr(755,root,root) %{_libdir}/libdigidocpp.so.0
+%ghost %attr(755,root,root) %{_libdir}/libdigidocpp.so.1
 %attr(755,root,root) %{_bindir}/digidoc-tool
 %{_mandir}/man1/digidoc-tool.1*
-
-# XXX ca-certificates or drop?
-%dir %{_datadir}/esteid
-%{_datadir}/esteid/certs
 
 %files devel
 %defattr(644,root,root,755)
@@ -156,7 +154,7 @@ rm -rf $RPM_BUILD_ROOT
 %if %{with php}
 %files -n php-digidoc
 %defattr(644,root,root,755)
-%{php_extdir}/*
+%{php_extensiondir}/*
 %{php_data_dir}/*
 %{_sysconfdir}/php.d/digidoc.ini
 %endif
