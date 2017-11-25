@@ -1,0 +1,10 @@
+--- libdigidocpp-3.13.2/src/CMakeLists.txt.orig	2017-10-24 18:48:34.000000000 +0200
++++ libdigidocpp-3.13.2/src/CMakeLists.txt	2017-11-25 11:25:52.228480156 +0100
+@@ -251,6 +251,7 @@
+     ${TARGET_LIBRARIES}
+     ${OPENSSL_LIBRARIES}
+     ${ZLIB_LIBRARIES}
++    pthread
+ )
+ 
+ if( BUILD_TOOLS )
