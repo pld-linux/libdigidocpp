@@ -31,7 +31,7 @@ BuildRequires:	libstdc++-devel
 BuildRequires:	minizip-devel
 BuildRequires:	openssl-devel >= 1.0.1
 BuildRequires:	pkgconfig
-BuildRequires:	rpmbuild(macros) >= 1.583
+BuildRequires:	rpmbuild(macros) >= 1.734
 BuildRequires:	xerces-c-devel
 BuildRequires:	xml-security-c-devel
 BuildRequires:	xsd >= 4.0
@@ -52,9 +52,6 @@ BuildRequires:	python-devel
 Requires:	libdigidoc >= 3.9
 Requires:	opensc
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
-
-# std::{__once_call,__once_callable} non-function symbols
-%define		skip_post_check_so	libdigidocpp.so.*
 
 %description
 libdigidocpp is a C++ library for reading, validating, and creating
