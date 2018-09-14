@@ -15,7 +15,7 @@ Summary:	Library for creating and validating BDoc and DDoc containers
 Summary(pl.UTF-8):	Biblioteka do tworzenia i sprawdzania poprawności kontenerów BDoc i DDoc
 Name:		libdigidocpp
 Version:	3.13.2
-Release:	1
+Release:	2
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	https://github.com/open-eid/libdigidocpp/releases/download/v%{version}/%{name}-%{version}.tar.gz
