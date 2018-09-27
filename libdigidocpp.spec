@@ -4,6 +4,8 @@
 %bcond_without	php		# PHP module
 %bcond_without	python		# Python module
 %bcond_with	bindings	# build bindings (currently only C#/Win32 and Java/Android supported)
+# https://github.com/open-eid/libdigidocpp/issues/231
+%bcond_with	podofo
 
 %if %{without bindings}
 %undefine	with_perl
@@ -14,13 +16,14 @@
 Summary:	Library for creating and validating BDoc and DDoc containers
 Summary(pl.UTF-8):	Biblioteka do tworzenia i sprawdzania poprawności kontenerów BDoc i DDoc
 Name:		libdigidocpp
-Version:	3.13.2
-Release:	2
+Version:	3.13.6
+Release:	1
 License:	LGPL v2.1+
 Group:		Libraries
 Source0:	https://github.com/open-eid/libdigidocpp/releases/download/v%{version}/%{name}-%{version}.tar.gz
-# Source0-md5:	bc7b44fa9ff66669169337f330112ed4
+# Source0-md5:	42d3bf5ebe8f4b6f0e1891c325642799
 Patch0:		%{name}-link.patch
+Patch1:		build.patch
 URL:		https://github.com/open-eid/libdigidocpp
 # for tests
 BuildRequires:	boost-devel
@@ -31,6 +34,7 @@ BuildRequires:	libstdc++-devel
 BuildRequires:	minizip-devel
 BuildRequires:	openssl-devel >= 1.0.1
 BuildRequires:	pkgconfig
+%{?with_podofo:BuildRequires:	podofo-devel}
 BuildRequires:	rpmbuild(macros) >= 1.734
 BuildRequires:	xerces-c-devel
 BuildRequires:	xml-security-c-devel
@@ -136,9 +140,12 @@ Wiązania Pythona do biblioteki libdigidocpp.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 
 # Remove bundled copy of minizip
 %{__rm} -r src/minizip
+
+%{!?with_podofo:sed -i -e 's#PODOFO_FOUND#0#g' src/CMakeLists.txt}
 
 %build
 install -d build
