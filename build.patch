@@ -1,0 +1,11 @@
+--- libdigidocpp-3.13.6/src/xml/SecureDOMParser.cpp~	2018-06-12 12:07:23.000000000 +0200
++++ libdigidocpp-3.13.6/src/xml/SecureDOMParser.cpp	2018-09-27 20:13:21.072500993 +0200
+@@ -95,7 +95,7 @@ void SecureDOMParser::calcDigestOnNode(D
+     }
+ 
+     unsigned char buffer[1024];
+-    xsecsize_t bytes = 0;
++    XMLSize_t bytes = 0;
+     while((bytes = c14n.outputBuffer(buffer, 1024)) > 0)
+         calc->update(buffer, (unsigned int)bytes);
+ }
