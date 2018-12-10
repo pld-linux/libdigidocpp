@@ -1,9 +1,9 @@
---- libdigidocpp-3.13.2/src/CMakeLists.txt.orig	2017-10-24 18:48:34.000000000 +0200
-+++ libdigidocpp-3.13.2/src/CMakeLists.txt	2017-11-25 11:25:52.228480156 +0100
-@@ -251,6 +251,7 @@
-     ${TARGET_LIBRARIES}
-     ${OPENSSL_LIBRARIES}
-     ${ZLIB_LIBRARIES}
+--- libdigidocpp-3.13.8/src/CMakeLists.txt~	2018-12-10 14:04:37.000000000 +0200
++++ libdigidocpp-3.13.8/src/CMakeLists.txt	2018-12-10 18:41:24.155653928 +0200
+@@ -233,6 +233,7 @@
+     ${CMAKE_DL_LIBS}
+     ${MINIZIP_LIBRARIES}
+     digidocpp_priv
 +    pthread
  )
  
