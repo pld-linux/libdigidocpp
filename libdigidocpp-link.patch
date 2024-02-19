@@ -1,10 +1,11 @@
---- libdigidocpp-3.13.8/src/CMakeLists.txt~	2018-12-10 14:04:37.000000000 +0200
-+++ libdigidocpp-3.13.8/src/CMakeLists.txt	2018-12-10 18:41:24.155653928 +0200
-@@ -233,6 +233,7 @@
-     ${CMAKE_DL_LIBS}
-     ${MINIZIP_LIBRARIES}
-     digidocpp_priv
-+    pthread
+--- libdigidocpp-3.16.0/src/CMakeLists.txt.orig	2023-08-10 10:07:19.000000000 +0200
++++ libdigidocpp-3.16.0/src/CMakeLists.txt	2024-02-11 19:06:40.301637257 +0100
+@@ -245,7 +245,7 @@ set_target_properties(digidocpp PROPERTI
  )
  
+ target_include_directories(digidocpp PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+-target_link_libraries(digidocpp PRIVATE ${CMAKE_DL_LIBS} minizip digidocpp_priv digidocpp_ver)
++target_link_libraries(digidocpp PRIVATE ${CMAKE_DL_LIBS} minizip digidocpp_priv digidocpp_ver pthread)
+ 
  if( BUILD_TOOLS )
+     add_executable(digidoc-tool digidoc-tool.rc digidoc-tool.cpp)

@@ -1,0 +1,29 @@
+--- libdigidocpp-3.16.0/src/CMakeLists.txt.orig	2024-02-19 19:29:57.049518786 +0100
++++ libdigidocpp-3.16.0/src/CMakeLists.txt	2024-02-19 19:47:49.477042281 +0100
+@@ -292,19 +292,19 @@ if(SWIG_FOUND)
+         set_property(TARGET digidoc_python PROPERTY SWIG_COMPILE_DEFINITIONS $<$<PLATFORM_ID:Windows>:SWIGWIN>)
+         #configure_file(setup.py.cmake setup.py)
+         #install(CODE "execute_process(COMMAND python3 ${CMAKE_CURRENT_BINARY_DIR}/setup.py install)")
+-        if(NOT Python3_SITELIB)
++        if(NOT Python3_SITEARCH)
+             execute_process(COMMAND /usr/bin/python3 -c
+-                "from distutils import sysconfig;print(sysconfig.get_python_lib(plat_specific=False,standard_lib=False))"
+-                OUTPUT_VARIABLE Python3_SITELIB OUTPUT_STRIP_TRAILING_WHITESPACE)
++                "from distutils import sysconfig;print(sysconfig.get_python_lib(plat_specific=True,standard_lib=False))"
++                OUTPUT_VARIABLE Python3_SITEARCH OUTPUT_STRIP_TRAILING_WHITESPACE)
+         endif()
+         if(WIN32)
+-            set(Python3_SITELIB ${CMAKE_INSTALL_BINDIR})
+-            install(FILES $<TARGET_PDB_FILE:digidoc_python> DESTINATION ${Python3_SITELIB} OPTIONAL)
++            set(Python3_SITEARCH ${CMAKE_INSTALL_BINDIR})
++            install(FILES $<TARGET_PDB_FILE:digidoc_python> DESTINATION ${Python3_SITEARCH} OPTIONAL)
+         else()
+             set_target_properties(digidoc_python PROPERTIES SUFFIX .so)
+         endif()
+-        install(TARGETS digidoc_python DESTINATION ${Python3_SITELIB})
+-        install(FILES ${CMAKE_CURRENT_BINARY_DIR}/digidoc.py DESTINATION ${Python3_SITELIB})
++       install(TARGETS digidoc_python DESTINATION ${Python3_SITEARCH})
++       install(FILES ${CMAKE_CURRENT_BINARY_DIR}/digidoc.py DESTINATION ${Python3_SITEARCH})
+     endif()
+ 
+     set(CMAKE_SWIG_FLAGS -dllimport digidoc_csharp -namespace digidoc)
