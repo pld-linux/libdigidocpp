@@ -1,8 +1,6 @@
 #
 # Conditional build:
 %bcond_without	java		# Java module
-%bcond_with	perl		# Perl module
-%bcond_with	php		# PHP module
 %bcond_without	python		# Python 3 module
 %bcond_without	bindings	# build bindings (currently only C#/Win32 and Java/Android supported)
 # https://github.com/open-eid/libdigidocpp/issues/231
@@ -10,8 +8,6 @@
 
 %if %{without bindings}
 %undefine	with_java
-%undefine	with_perl
-%undefine	with_php
 %undefine	with_python
 %endif
 
@@ -35,12 +31,6 @@ BuildRequires:	doxygen
 BuildRequires:	libstdc++-devel
 BuildRequires:	minizip-devel >= 1
 BuildRequires:	openssl-devel >= 1.1.1
-%if %{with perl}
-BuildRequires:	perl-devel
-%endif
-%if %{with php}
-BuildRequires:	php-devel >= 4:5.0.4
-%endif
 BuildRequires:	pkgconfig
 %{?with_podofo:BuildRequires:	podofo-devel}
 BuildRequires:	rpm-build >= 4.6
@@ -97,35 +87,6 @@ API documentation for libdigidocpp library.
 
 %description apidocs -l pl.UTF-8
 Dokumentacja API biblioteki libdigidocpp.
-
-%package -n perl-digidoc
-Summary:	Perl bindings for libdigidocpp library
-Summary(pl.UTF-8):	Wiązania Perla do biblioteki libdigidocpp
-Group:		Development/Languages/Perl
-Requires:	%{name} = %{version}-%{release}
-Provides:	%{name}-perl = %{version}-%{release}
-Obsoletes:	libdigidocpp-perl < 0.3.0-1
-
-%description -n perl-digidoc
-Perl bindings for libdigidocpp library.
-
-%description -n perl-digidoc -l pl.UTF-8
-Wiązania Perla do biblioteki libdigidocpp.
-
-%package -n php-digidoc
-Summary:	PHP bindings for libdigidocpp library
-Summary(pl.UTF-8):	Wiązania PHP do biblioteki libdigidocpp
-Group:		Development/Languages/PHP
-Requires:	%{name} = %{version}-%{release}
-%{?requires_php_extension}
-Provides:	%{name}-php = %{version}-%{release}
-Obsoletes:	libdigidocpp-php < 0.3.0-1
-
-%description -n php-digidoc
-PHP bindings for libdigidocpp library.
-
-%description -n php-digidoc -l pl.UTF-8
-Wiązania PHP do biblioteki libdigidocpp.
 
 %package -n python3-digidoc
 Summary:	Python bindings for libdigidocpp library
@@ -204,21 +165,6 @@ rm -rf $RPM_BUILD_ROOT
 # TODO: csharp, java bindings?
 #%attr(755,root,root) %{_libdir}/libdigidoc_csharp.so
 #%attr(755,root,root) %{_libdir}/libdigidoc_java.so
-
-%if %{with perl}
-%files -n perl-digidoc
-%defattr(644,root,root,755)
-%{perl_vendorarch}/*
-%{perl_vendorlib}/*
-%endif
-
-%if %{with php}
-%files -n php-digidoc
-%defattr(644,root,root,755)
-%{php_extensiondir}/*
-%{php_data_dir}/*
-%{_sysconfdir}/php.d/digidoc.ini
-%endif
 
 %if %{with python}
 %files -n python3-digidoc
