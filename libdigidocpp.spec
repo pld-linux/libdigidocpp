@@ -15,7 +15,7 @@ Summary:	Library for creating and validating BDoc and DDoc containers
 Summary(pl.UTF-8):	Biblioteka do tworzenia i sprawdzania poprawności kontenerów BDoc i DDoc
 Name:		libdigidocpp
 Version:	3.16.0
-Release:	
+Release:	2
 License:	LGPL v2.1+
 Group:		Libraries
 #Source0Download: https://github.com/open-eid/libdigidocpp/releases
@@ -105,8 +105,8 @@ Wiązania Pythona do biblioteki libdigidocpp.
 
 %prep
 %setup -q
-%patch0 -p1
-%patch1 -p1
+%patch -P 0 -p1
+%patch -P 1 -p1
 
 # Remove bundled copy of minizip
 %{__rm} -r src/minizip
